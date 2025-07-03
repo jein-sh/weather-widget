@@ -1,0 +1,91 @@
+:root {
+  font-family: 'Open Sans', Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: #e5e5e5;
+  background-color: #322F2F;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-style: normal;
+  font-weight: 600;
+  font-family: "Open Sans";
+  font-display: swap;
+  src: url("/fonts/OpenSans-SemiBold.woff2") format("woff2"),
+}
+
+@font-face {
+  font-style: normal;
+  font-weight: 700;
+  font-family: "Open Sans";
+  font-display: swap;
+  src: url("/fonts/OpenSans-Bold.woff2") format("woff2"),
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#app {
+  margin: auto;
+  padding: 2rem;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #322F2F;
+    background-color: #e5e5e5;
+  }
+}
