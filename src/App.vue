@@ -58,9 +58,17 @@ const getGeolocation = () => {
 
 const hueValue = computed(() => {
   if (!weather.value?.main?.temp) return 0
-  const temp = Math.max(-30, Math.min(30, weather.value.main.temp))
-  const ratio = (30  - temp) / 40
-  return ratio * 270
+  //const temp = Math.max(-30, Math.min(30, weather.value.main.temp))
+  const temp = 30
+  if (temp <= 0) {
+    // От -30 до 0: фиолетовый → голубой
+    const ratio = (temp + 30) / 30
+    return 270 - ratio * 90 
+  } else {
+    // От 0 до 30: жёлтый → красный
+    const ratio = temp / 30
+    return 60 - ratio * 60 
+  }
 })
 
 watch(
