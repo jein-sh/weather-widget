@@ -38,24 +38,38 @@ const iconSrc = computed(() => {
   return new URL(`/src/assets/weather-icons/${iconCode}.svg`, import.meta.url).href
 })
 
-const getGeolocation = () => {
-  if (!navigator.geolocation) {
-    error.value = 'Геолокация не поддерживается вашим браузером'
-    return
+const getGeolocationByIP = async () => {
+  try {
+    const res = await fetch('https://ipinfo.io/json?token=849e296966c654')
+    const data = await res.json()
+    const [latitude, longitude] = data.loc.split(',')
+    await fetchWeather(latitude, longitude)
+    if (data.city) fetchCityImage(data.city)
+  } catch (error) {
+    console.error('Ошибка получения геолокации по IP:', error)
   }
-
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      const { latitude, longitude } = position.coords
-      fetchWeather(latitude, longitude)
-    },
-    err => {
-      error.value = 'Ошибка доступа к геолокации: ' + err.message
-      console.error(err)
-    }
-  )
 }
 
+const getGeolocation = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async position => {
+        const { latitude, longitude } = position.coords
+        await fetchWeather(latitude, longitude)
+      },
+      async err => {
+        console.warn('Не удалось получить геолокацию от браузера, используем IP:', err.message)
+        await getGeolocationByIP()
+      },
+      {
+        timeout: 5000 
+      }
+    )
+  } else {
+    console.warn('Геолокация не поддерживается, используем IP')
+    getGeolocationByIP()
+  }
+}
 const hueValue = computed(() => {
   if (!weather.value?.main?.temp) return 0
   const temp = Math.max(-30, Math.min(30, weather.value.main.temp))
